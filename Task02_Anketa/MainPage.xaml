@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Anketa.MainPage"
+             x:Name="_AnketaPage_"
+             Title="Анкета дотера"
+             BackgroundColor="#EDEAE6">
+
+    <ScrollView x:Name="_RootScroll_">
+        <VerticalStackLayout x:Name="_RootStack_"
+                             Padding="20,16,20,32"
+                             Spacing="12"
+                             MaximumWidthRequest="640">
+
+            <Image x:Name="_HeaderImage_"
+                   Source="dota_emblem.png"
+                   Aspect="AspectFit"
+                   HeightRequest="130"
+                   Margin="0,8,0,0" />
+
+            <Label x:Name="_TitleLabel_"
+                   Text="Какой у тебя MMR?"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   TextColor="#8E1F14"
+                   HorizontalTextAlignment="Center"
+                   Margin="0,4,0,0" />
+
+            <Label x:Name="_SubtitleLabel_"
+                   Text="Ответь на 10 вопросов по механике Dota 2 — по количеству верных ответов анкета определит твой рейтинг. Поля со звёздочкой обязательны."
+                   FontSize="14"
+                   FontAttributes="Italic"
+                   TextColor="#5C5C5C"
+                   HorizontalTextAlignment="Center"
+                   Margin="0,0,0,8" />
+
+            <!-- 1. Игрок и основы -->
+            <Label x:Name="_BasicsHeader_"
+                   Text="1. Основы"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   TextColor="#8E1F14"
+                   Margin="0,8,0,0" />
+
+            <Grid x:Name="_BasicsGrid_"
+                  RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
+                  ColumnDefinitions="*,Auto"
+                  ColumnSpacing="12"
+                  RowSpacing="6"
+                  Padding="12"
+                  BackgroundColor="White">
+
+                <Label x:Name="_NickCaption_"
+                       Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                       Text="Ваш ник *"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       Margin="0,0,0,0" />
+                <Entry x:Name="_NickEntry_"
+                       Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                       Placeholder="Например, Pudge_Main"
+                       Keyboard="Text"
+                       MaxLength="24"
+                       TextChanged="OnRequiredTextChanged"
+                       Margin="0,0,0,8" />
+
+                <Label x:Name="_DamageCaption_"
+                       Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                       Text="Вопрос 1 *. Какой тип урона не снижается ни бронёй, ни сопротивлением магии?"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       Margin="0,0,0,0" />
+                <Picker x:Name="_DamagePicker_"
+                        Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+                        Title="Выберите тип урона"
+                        SelectedIndexChanged="OnDamageChanged"
+                        Margin="0,0,0,8">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Физический</x:String>
+                            <x:String>Магический</x:String>
+                            <x:String>Чистый</x:String>
+                            <x:String>Урон от атаки с критом</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+
+                <Label x:Name="_MaxLevelCaption_"
+                       Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
+                       Text="Вопрос 2 *. Какой максимальный уровень может получить герой?"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       Margin="0,0,0,0" />
+                <Entry x:Name="_MaxLevelEntry_"
+                       Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
+                       Placeholder="Число, например 15"
+                       Keyboard="Numeric"
+                       MaxLength="3"
+                       TextChanged="OnRequiredTextChanged"
+                       Margin="0,0,0,4" />
+            </Grid>
+
+            <VerticalStackLayout x:Name="_NumbersStack_"
+                                 Spacing="6"
+                                 Padding="12"
+                                 BackgroundColor="White">
+
+                <Label x:Name="_UltCaption_"
+                       Text="Вопрос 3. На каком уровне у большинства героев открывается ультимейт?"
+                       FontSize="14"
+                       FontAttributes="Bold" />
+                <HorizontalStackLayout x:Name="_UltStack_"
+                                       Spacing="12"
+                                       Margin="0,0,0,8">
+                    <Stepper x:Name="_UltStepper_"
+                             Minimum="1"
+                             Maximum="30"
+                             Increment="1"
+                             Value="1"
+                             VerticalOptions="Center" />
+                    <Label x:Name="_UltValueLabel_"
+                           Text="{Binding Source={x:Reference _UltStepper_}, Path=Value, Mode=OneWay, StringFormat='{0:F0} уровень'}"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           VerticalOptions="Center" />
+                </HorizontalStackLayout>
+
+                <Label x:Name="_DayCaption_"
+                       Text="Вопрос 4. Сколько минут длится день в игре (от начала дня до наступления ночи)?"
+                       FontSize="14"
+                       FontAttributes="Bold" />
+                <Slider x:Name="_DaySlider_"
+                        Minimum="1"
+                        Maximum="15"
+                        Value="1"
+                        MinimumTrackColor="#B3261E"
+                        ThumbColor="#8E1F14"
+                        Margin="0,4,0,0" />
+                <Label x:Name="_DayValueLabel_"
+                       Text="{Binding Source={x:Reference _DaySlider_}, Path=Value, Mode=OneWay, StringFormat='{0:F0} мин'}"
+                       FontSize="14"
+                       FontAttributes="Italic"
+                       HorizontalTextAlignment="End"
+                       Margin="0,0,0,4" />
+            </VerticalStackLayout>
+
+            <!-- 2. Карта и предметы -->
+            <Label x:Name="_MapHeader_"
+                   Text="2. Карта и предметы"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   TextColor="#8E1F14"
+                   Margin="0,12,0,0" />
+
+            <VerticalStackLayout x:Name="_MapStack_"
+                                 Spacing="6"
+                                 Padding="12"
+                                 BackgroundColor="White">
+
+                <Label x:Name="_AegisCaption_"
+                       Text="Вопрос 5. Как называется предмет, который выпадает с Рошана и даёт вторую жизнь?"
+                       FontSize="14"
+                       FontAttributes="Bold" />
+                <Entry x:Name="_AegisEntry_"
+                       Placeholder="Название предмета"
+                       Keyboard="Plain"
+                       MaxLength="30"
+                       Margin="0,0,0,8" />
+
+                <Label x:Name="_StackCaption_"
+                       Text="Вопрос 6. Как правильно застакать лесной лагерь?"
+                       FontSize="14"
+                       FontAttributes="Bold" />
+                <VerticalStackLayout x:Name="_StackRadioStack_"
+                                     Spacing="2"
+                                     Margin="0,0,0,8">
+                    <RadioButton x:Name="_StackKillRadio_"
+                                 Content="Убить всех крипов лагеря ровно в начале минуты"
+                                 GroupName="StackQuestion"
+                                 Value="kill" />
+                    <RadioButton x:Name="_StackPullRadio_"
+                                 Content="Увести крипов из лагеря примерно на :53–:55 секунде, чтобы к :00 лагерь был пуст"
+                                 GroupName="StackQuestion"
+                                 Value="pull" />
+                    <RadioButton x:Name="_StackWardRadio_"
+                                 Content="Поставить вард прямо в лагерь"
+                                 GroupName="StackQuestion"
+                                 Value="ward" />
+                </VerticalStackLayout>
+
+                <Label x:Name="_SmokeCaption_"
+                       Text="Вопрос 7. Что делает Smoke of Deceit?"
+                       FontSize="14"
+                       FontAttributes="Bold" />
+                <VerticalStackLayout x:Name="_SmokeRadioStack_"
+                                     Spacing="2"
+                                     Margin="0,0,0,8">
+                    <RadioButton x:Name="_SmokeStunRadio_"
+                                 Content="Оглушает врагов вокруг"
+                                 GroupName="SmokeQuestion"
+                                 Value="stun" />
+                    <RadioButton x:Name="_SmokeHealRadio_"
+                                 Content="Восстанавливает здоровье и ману союзникам"
+                                 GroupName="SmokeQuestion"
+                                 Value="heal" />
+                    <RadioButton x:Name="_SmokeInvisRadio_"
+                                 Content="Делает себя и союзников рядом невидимыми и ускоряет их"
+                                 GroupName="SmokeQuestion"
+                                 Value="invis" />
+                </VerticalStackLayout>
+
+                <Label x:Name="_BkbCaption_"
+                       Text="Вопрос 8. Какой предмет при использовании даёт иммунитет к дебаффам и развеивает их?"
+                       FontSize="14"
+                       FontAttributes="Bold" />
+                <VerticalStackLayout x:Name="_BkbRadioStack_"
+                                     Spacing="2"
+                                     Margin="0,0,0,4">
+                    <RadioButton x:Name="_BlinkRadio_"
+                                 Content="Blink Dagger"
+                                 GroupName="BkbQuestion"
+                                 Value="blink" />
+                    <RadioButton x:Name="_BkbRadio_"
+                                 Content="Black King Bar"
+                                 GroupName="BkbQuestion"
+                                 Value="bkb" />
+                    <RadioButton x:Name="_ScepterRadio_"
+                                 Content="Aghanim's Scepter"
+                                 GroupName="BkbQuestion"
+                                 Value="scepter" />
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+
+            <Label x:Name="_InvisCaption_"
+                   Text="Вопрос 9. Отметьте ВСЕ предметы, которые дают невидимость"
+                   FontSize="14"
+                   FontAttributes="Bold"
+                   Margin="0,4,0,0" />
+            <Grid x:Name="_InvisGrid_"
+                  RowDefinitions="Auto,Auto,Auto,Auto"
+                  ColumnDefinitions="Auto,*"
+                  ColumnSpacing="4"
+                  Padding="12"
+                  BackgroundColor="White">
+                <CheckBox x:Name="_ShadowBladeCheck_"
+                          Grid.Row="0" Grid.Column="0"
+                          IsChecked="False"
+                          Color="#8E1F14" />
+                <Label x:Name="_ShadowBladeLabel_"
+                       Grid.Row="0" Grid.Column="1"
+                       Text="Shadow Blade"
+                       FontSize="14"
+                       FontAttributes="None"
+                       VerticalOptions="Center" />
+
+                <CheckBox x:Name="_BkbCheck_"
+                          Grid.Row="1" Grid.Column="0"
+                          IsChecked="False"
+                          Color="#8E1F14" />
+                <Label x:Name="_BkbCheckLabel_"
+                       Grid.Row="1" Grid.Column="1"
+                       Text="Black King Bar"
+                       FontSize="14"
+                       FontAttributes="None"
+                       VerticalOptions="Center" />
+
+                <CheckBox x:Name="_GlimmerCheck_"
+                          Grid.Row="2" Grid.Column="0"
+                          IsChecked="False"
+                          Color="#8E1F14" />
+                <Label x:Name="_GlimmerLabel_"
+                       Grid.Row="2" Grid.Column="1"
+                       Text="Glimmer Cape"
+                       FontSize="14"
+                       FontAttributes="None"
+                       VerticalOptions="Center" />
+
+                <CheckBox x:Name="_BlinkCheck_"
+                          Grid.Row="3" Grid.Column="0"
+                          IsChecked="False"
+                          Color="#8E1F14" />
+                <Label x:Name="_BlinkCheckLabel_"
+                       Grid.Row="3" Grid.Column="1"
+                       Text="Blink Dagger"
+                       FontSize="14"
+                       FontAttributes="None"
+                       VerticalOptions="Center" />
+            </Grid>
+
+            <!-- 3. История -->
+            <Label x:Name="_HistoryHeader_"
+                   Text="3. История"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   TextColor="#8E1F14"
+                   Margin="0,12,0,0" />
+
+            <VerticalStackLayout x:Name="_HistoryStack_"
+                                 Spacing="6"
+                                 Padding="12"
+                                 BackgroundColor="White">
+                <Label x:Name="_ReleaseCaption_"
+                       Text="Вопрос 10. Когда состоялся официальный релиз Dota 2? (точная дата — полный балл, верный год — половина)"
+                       FontSize="14"
+                       FontAttributes="Bold" />
+                <DatePicker x:Name="_ReleaseDatePicker_"
+                            Format="dd.MM.yyyy"
+                            MinimumDate="2003-01-01"
+                            MaximumDate="2026-12-31"
+                            Date="2020-01-01"
+                            HorizontalOptions="Start"
+                            Margin="0,0,0,4" />
+            </VerticalStackLayout>
+
+            <!-- 4. Хардкор -->
+            <Grid x:Name="_HardcoreGrid_"
+                  RowDefinitions="Auto"
+                  ColumnDefinitions="*,Auto"
+                  Padding="12"
+                  Margin="0,12,0,0"
+                  BackgroundColor="White">
+                <Label x:Name="_HardcoreCaption_"
+                       Grid.Row="0" Grid.Column="0"
+                       Text="Хардкорный режим: бонусный вопрос (+MMR за верный ответ)"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       VerticalOptions="Center" />
+                <Switch x:Name="_HardcoreSwitch_"
+                        Grid.Row="0" Grid.Column="1"
+                        IsToggled="False"
+                        OnColor="#B3261E"
+                        Toggled="OnHardcoreToggled" />
+            </Grid>
+
+            <VerticalStackLayout x:Name="_HardcoreStack_"
+                                 Spacing="6"
+                                 Padding="12"
+                                 BackgroundColor="White"
+                                 IsVisible="False">
+                <Label x:Name="_RapierCaption_"
+                       Text="Бонус. Что происходит с Divine Rapier, когда владелец умирает?"
+                       FontSize="14"
+                       FontAttributes="Bold" />
+                <VerticalStackLayout x:Name="_RapierRadioStack_"
+                                     Spacing="2"
+                                     Margin="0,0,0,8">
+                    <RadioButton x:Name="_RapierStaysRadio_"
+                                 Content="Остаётся в инвентаре"
+                                 GroupName="RapierQuestion"
+                                 Value="stays" />
+                    <RadioButton x:Name="_RapierDropsRadio_"
+                                 Content="Выпадает на землю, его может подобрать любой герой"
+                                 GroupName="RapierQuestion"
+                                 Value="drops" />
+                    <RadioButton x:Name="_RapierGoneRadio_"
+                                 Content="Исчезает навсегда"
+                                 GroupName="RapierQuestion"
+                                 Value="gone" />
+                </VerticalStackLayout>
+
+                <Label x:Name="_DenyCaption_"
+                       Text="Объясните своими словами, что такое «денай» и зачем он нужен (не оценивается)"
+                       FontSize="14"
+                       FontAttributes="Bold" />
+                <Editor x:Name="_DenyEditor_"
+                        Placeholder="Ваше объяснение"
+                        AutoSize="TextChanges"
+                        MaxLength="300"
+                        Text=""
+                        MinimumHeightRequest="80"
+                        Margin="0,4,0,0" />
+                <Label x:Name="_DenyCounterLabel_"
+                       Text="{Binding Source={x:Reference _DenyEditor_}, Path=Text.Length, Mode=OneWay, StringFormat='{0} / 300'}"
+                       FontSize="12"
+                       FontAttributes="Italic"
+                       TextColor="#5C5C5C"
+                       HorizontalTextAlignment="End" />
+            </VerticalStackLayout>
+
+            <Label x:Name="_ProgressLabel_"
+                   Text="Обязательные поля заполнены: 0 из 3"
+                   FontSize="14"
+                   FontAttributes="Bold"
+                   TextColor="#B5523B"
+                   HorizontalTextAlignment="Center"
+                   Margin="0,12,0,0" />
+
+            <Grid x:Name="_ButtonsGrid_"
+                  RowDefinitions="Auto"
+                  ColumnDefinitions="*,*"
+                  ColumnSpacing="12"
+                  Margin="0,4,0,0">
+                <Button x:Name="_ShowResultButton_"
+                        Grid.Row="0" Grid.Column="0"
+                        Text="Показать результат"
+                        Clicked="OnShowResultClicked"
+                        BackgroundColor="#8E1F14"
+                        TextColor="White" />
+                <Button x:Name="_ClearButton_"
+                        Grid.Row="0" Grid.Column="1"
+                        Text="Очистить"
+                        Clicked="OnClearClicked"
+                        BackgroundColor="#4A4A4A"
+                        TextColor="White" />
+            </Grid>
+
+            <Label x:Name="_ErrorLabel_"
+                   Text=""
+                   FontSize="14"
+                   FontAttributes="Bold"
+                   TextColor="#C62828"
+                   IsVisible="False"
+                   Margin="0,4,0,0" />
+
+            <Border x:Name="_ResultBorder_"
+                    Stroke="#8E1F14"
+                    StrokeThickness="2"
+                    BackgroundColor="White"
+                    Padding="14"
+                    Margin="0,8,0,0"
+                    IsVisible="False">
+                <VerticalStackLayout x:Name="_ResultStack_" Spacing="8">
+                    <Label x:Name="_ResultTitleLabel_"
+                           Text="Ваш примерный MMR"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="#8E1F14"
+                           HorizontalTextAlignment="Center" />
+                    <Label x:Name="_MmrLabel_"
+                           Text=""
+                           FontSize="40"
+                           FontAttributes="Bold"
+                           TextColor="#B8860B"
+                           HorizontalTextAlignment="Center" />
+                    <Label x:Name="_RankLabel_"
+                           Text=""
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           HorizontalTextAlignment="Center" />
+                    <Label x:Name="_VerdictLabel_"
+                           Text=""
+                           FontSize="14"
+                           FontAttributes="Italic"
+                           TextColor="#5C5C5C"
+                           HorizontalTextAlignment="Center"
+                           Margin="0,0,0,8" />
+                    <Label x:Name="_AnswersTitleLabel_"
+                           Text="Ваши ответы"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#8E1F14" />
+                    <Label x:Name="_ResultLabel_"
+                           Text=""
+                           FontSize="14"
+                           FontAttributes="None"
+                           LineHeight="1.3" />
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

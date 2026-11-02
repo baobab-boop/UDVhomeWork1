@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="200" height="200" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="#4A4A4A" stroke-width="3" stroke-linecap="round">
+        <line x1="30" y1="30" x2="170" y2="170" stroke="#9E9E9E" stroke-width="10" />
+        <line x1="170" y1="30" x2="30" y2="170" stroke="#9E9E9E" stroke-width="10" />
+        <line x1="40" y1="150" x2="60" y2="170" stroke="#C99A2E" stroke-width="8" />
+        <line x1="160" y1="150" x2="140" y2="170" stroke="#C99A2E" stroke-width="8" />
+    </g>
+    <path d="M100 28 L160 50 L160 100 Q160 150 100 176 Q40 150 40 100 L40 50 Z" fill="#8E1F14" stroke="#C99A2E" stroke-width="6" />
+    <path d="M100 46 L144 62 L144 100 Q144 138 100 158 Q56 138 56 100 L56 62 Z" fill="#B3261E" />
+    <text x="100" y="116" font-family="Arial, sans-serif" font-size="34" font-weight="bold" fill="#FFF3D6" text-anchor="middle">MMR</text>
+</svg>
